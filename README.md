@@ -48,8 +48,8 @@ A beautiful, mobile-first booking system built for a 2-groomer dog grooming salo
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/dog-grooming-booking.git
-cd dog-grooming-booking
+git clone https://github.com/leamonline/Booking.System.git
+cd Booking.System
 ```
 
 2. Install dependencies:
