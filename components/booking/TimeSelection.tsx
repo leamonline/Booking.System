@@ -102,7 +102,7 @@ export default function TimeSelection({ bookingData, onNext, onBack }: Props) {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{ borderColor: '#f59e0b' }}></div>
       </div>
     );
   }
@@ -111,10 +111,10 @@ export default function TimeSelection({ bookingData, onNext, onBack }: Props) {
     <div className="space-y-6">
       <div className="text-center">
         <h2 className="text-3xl font-bold text-gray-900 mb-2">
-          Choose a Time
+          ⏰ Choose a Time
         </h2>
         <p className="text-gray-600">
-          {bookingData.selectedDate?.toLocaleDateString('en-US', {
+          {bookingData.selectedDate?.toLocaleDateString('en-GB', {
             weekday: 'long',
             month: 'long',
             day: 'numeric',
@@ -131,11 +131,12 @@ export default function TimeSelection({ bookingData, onNext, onBack }: Props) {
               disabled={!slot.available}
               className={`p-4 rounded-lg font-medium transition-all min-h-[60px] flex flex-col items-center justify-center ${
                 selectedSlot?.time === slot.time
-                  ? 'bg-primary-600 text-white ring-2 ring-primary-600'
+                  ? 'text-white ring-2 ring-amber-600'
                   : slot.available
-                  ? 'bg-white border-2 border-gray-200 text-gray-900 hover:border-primary-600 active:scale-95'
+                  ? 'bg-white border-2 border-gray-200 text-gray-900 hover:border-amber-300 active:scale-95'
                   : 'bg-gray-100 text-gray-400 cursor-not-allowed'
               }`}
+              style={selectedSlot?.time === slot.time ? { backgroundColor: '#f59e0b' } : {}}
             >
               <Clock className="w-5 h-5 mb-1" />
               <span>{formatTime(slot.time)}</span>
@@ -157,11 +158,11 @@ export default function TimeSelection({ bookingData, onNext, onBack }: Props) {
         )}
 
         {selectedSlot && (
-          <div className="mt-6 p-4 bg-primary-50 rounded-lg">
+          <div className="mt-6 p-4 bg-amber-50 rounded-lg">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">Selected Time</p>
-                <p className="text-lg font-semibold text-primary-600">
+                <p className="text-lg font-semibold" style={{ color: '#f59e0b' }}>
                   {formatTime(selectedSlot.time)}
                 </p>
               </div>

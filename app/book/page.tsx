@@ -86,12 +86,12 @@ export default function BookingPage() {
   const CurrentStepComponent = STEPS[currentStep - 1].component;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white">
       {/* Header */}
       <header className="bg-white shadow-sm sticky top-0 z-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-2 text-gray-600 hover:text-primary-600">
+            <Link href="/" className="flex items-center gap-2 hover:underline" style={{ color: '#f59e0b' }}>
               <ChevronLeft className="w-5 h-5" />
               <span className="text-sm font-medium">Back to Home</span>
             </Link>
@@ -112,11 +112,12 @@ export default function BookingPage() {
                   <div
                     className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold transition-colors ${
                       currentStep > step.number
-                        ? 'bg-primary-600 text-white'
+                        ? 'text-white'
                         : currentStep === step.number
-                        ? 'bg-primary-600 text-white ring-4 ring-primary-100'
+                        ? 'text-white ring-4 ring-amber-100'
                         : 'bg-gray-200 text-gray-500'
                     }`}
+                    style={currentStep >= step.number ? { backgroundColor: '#f59e0b' } : {}}
                   >
                     {currentStep > step.number ? '✓' : step.number}
                   </div>
@@ -131,8 +132,9 @@ export default function BookingPage() {
                 {index < STEPS.length - 1 && (
                   <div
                     className={`h-0.5 flex-1 mx-2 transition-colors ${
-                      currentStep > step.number ? 'bg-primary-600' : 'bg-gray-200'
+                      currentStep > step.number ? '' : 'bg-gray-200'
                     }`}
+                    style={currentStep > step.number ? { backgroundColor: '#f59e0b' } : {}}
                   />
                 )}
               </div>

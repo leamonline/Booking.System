@@ -53,10 +53,9 @@ CREATE TABLE groomers (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Insert default groomers
+-- Insert default groomer
 INSERT INTO groomers (name, color_code) VALUES
-    ('Sarah', '#3B82F6'),  -- Blue
-    ('Jessica', '#EC4899'); -- Pink
+    ('Smarter Dog Grooming Salon', '#f59e0b'); -- Amber
 
 -- ============================================
 -- SERVICES TABLE

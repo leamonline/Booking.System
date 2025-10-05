@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import type { BookingData } from '@/app/book/page';
+import { DOG_BREEDS } from '@/lib/constants/breeds';
 
 interface Props {
   bookingData: BookingData;
@@ -60,6 +61,7 @@ export default function PetSelection({ bookingData, onNext, onBack }: Props) {
       !formData.email ||
       !formData.phone ||
       !formData.petName ||
+      !formData.breed ||
       !formData.size ||
       !formData.coatType
     ) {
@@ -211,16 +213,22 @@ export default function PetSelection({ bookingData, onNext, onBack }: Props) {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Breed
+              Breed *
             </label>
-            <input
-              type="text"
+            <select
               name="breed"
               value={formData.breed}
               onChange={handleChange}
               className="input-field"
-              placeholder="e.g., Golden Retriever, Mixed"
-            />
+              required
+            >
+              <option value="">Select breed</option>
+              {DOG_BREEDS.map((breed) => (
+                <option key={breed} value={breed}>
+                  {breed}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div>

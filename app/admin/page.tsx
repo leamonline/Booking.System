@@ -14,9 +14,9 @@ export default function AdminDashboard() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <h1 className="text-2xl font-bold text-gray-900">Paws & Polish Admin</h1>
+              <h1 className="text-2xl font-bold text-gray-900">Smarter Dog Admin</h1>
             </div>
-            <Link href="/" className="text-sm text-primary-600 hover:underline">
+            <Link href="/" className="text-sm hover:underline" style={{ color: '#0284c7' }}>
               View Site
             </Link>
           </div>

@@ -71,7 +71,7 @@ export default function ReviewBooking({ bookingData, onNext, onBack }: Props) {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{ borderColor: '#f59e0b' }}></div>
       </div>
     );
   }
@@ -80,7 +80,7 @@ export default function ReviewBooking({ bookingData, onNext, onBack }: Props) {
     <div className="space-y-6">
       <div className="text-center">
         <h2 className="text-3xl font-bold text-gray-900 mb-2">
-          Review Your Booking
+          📋 Review Your Booking
         </h2>
         <p className="text-gray-600">
           Please confirm all details are correct
@@ -91,7 +91,7 @@ export default function ReviewBooking({ bookingData, onNext, onBack }: Props) {
         {/* Appointment Details */}
         <div className="card">
           <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <Calendar className="w-5 h-5 text-primary-600" />
+            <Calendar className="w-5 h-5" style={{ color: '#f59e0b' }} />
             Appointment Details
           </h3>
 
@@ -126,7 +126,7 @@ export default function ReviewBooking({ bookingData, onNext, onBack }: Props) {
         {/* Customer & Pet Info */}
         <div className="card">
           <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <User className="w-5 h-5 text-primary-600" />
+            <User className="w-5 h-5" style={{ color: '#f59e0b' }} />
             Customer & Pet
           </h3>
 
@@ -184,7 +184,7 @@ export default function ReviewBooking({ bookingData, onNext, onBack }: Props) {
         {/* Services */}
         <div className="card">
           <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-primary-600" />
+            <Sparkles className="w-5 h-5" style={{ color: '#f59e0b' }} />
             Services
           </h3>
 
@@ -203,7 +203,7 @@ export default function ReviewBooking({ bookingData, onNext, onBack }: Props) {
                     )
                   : bookingData.subtotal
                   ? formatPrice(bookingData.subtotal)
-                  : '$0.00'}
+                  : '£0.00'}
               </span>
             </div>
 
@@ -224,15 +224,15 @@ export default function ReviewBooking({ bookingData, onNext, onBack }: Props) {
 
             <div className="flex justify-between font-semibold text-lg">
               <span>Total</span>
-              <span className="text-primary-600">
-                {bookingData.total ? formatPrice(bookingData.total) : '$0.00'}
+              <span style={{ color: '#f59e0b' }}>
+                {bookingData.total ? formatPrice(bookingData.total) : '£0.00'}
               </span>
             </div>
 
             <div className="flex justify-between text-sm">
               <span className="text-gray-600">Deposit Due Now (50%)</span>
               <span className="font-medium text-gray-900">
-                {bookingData.deposit ? formatPrice(bookingData.deposit) : '$0.00'}
+                {bookingData.deposit ? formatPrice(bookingData.deposit) : '£0.00'}
               </span>
             </div>
           </div>

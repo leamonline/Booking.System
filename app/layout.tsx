@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
@@ -8,10 +8,15 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Paws & Polish - Dog Grooming Salon",
-  description: "Professional dog grooming services. Book your appointment today!",
-  keywords: ["dog grooming", "pet grooming", "dog salon", "pet care"],
-  viewport: "width=device-width, initial-scale=1, maximum-scale=1",
+  title: "Smarter Dog - Award-Winning Dog Grooming | Ashton-under-Lyne",
+  description: "40+ years pampering pups in Ashton-under-Lyne. All breeds welcome. Professional dog grooming with full groom, de-shedding & maintenance packages. Book online or call 07507 731487.",
+  keywords: ["dog grooming Ashton-under-Lyne", "dog groomer Manchester", "pet grooming", "full groom", "de-shedding", "smarter dog"],
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 export default function RootLayout({

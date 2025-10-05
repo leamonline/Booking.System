@@ -71,7 +71,7 @@ export default function AddOnsSelection({ bookingData, onNext, onBack }: Props) 
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{ borderColor: '#f59e0b' }}></div>
       </div>
     );
   }
@@ -80,7 +80,7 @@ export default function AddOnsSelection({ bookingData, onNext, onBack }: Props) 
     <div className="space-y-6">
       <div className="text-center">
         <h2 className="text-3xl font-bold text-gray-900 mb-2">
-          Enhance Your Service
+          ✨ Enhance Your Service
         </h2>
         <p className="text-gray-600">
           Add extra pampering for your pup (optional)
@@ -100,11 +100,11 @@ export default function AddOnsSelection({ bookingData, onNext, onBack }: Props) 
               key={service.id}
               onClick={() => toggleAddOn(service.id)}
               className={`card text-left hover:shadow-lg transition-all transform active:scale-95 relative ${
-                isSelected ? 'ring-2 ring-primary-600 bg-primary-50' : ''
+                isSelected ? 'ring-2 ring-amber-600 bg-amber-50' : ''
               }`}
             >
               {isSelected && (
-                <div className="absolute top-4 right-4 w-6 h-6 bg-primary-600 text-white rounded-full flex items-center justify-center">
+                <div className="absolute top-4 right-4 w-6 h-6 text-white rounded-full flex items-center justify-center" style={{ backgroundColor: '#f59e0b' }}>
                   <Check className="w-4 h-4" />
                 </div>
               )}
@@ -118,7 +118,7 @@ export default function AddOnsSelection({ bookingData, onNext, onBack }: Props) 
               </p>
 
               <div className="flex items-baseline gap-2">
-                <span className="text-xl font-bold text-primary-600">
+                <span className="text-xl font-bold" style={{ color: '#f59e0b' }}>
                   {formatPrice(price)}
                 </span>
                 <span className="text-sm text-gray-500">
@@ -137,7 +137,7 @@ export default function AddOnsSelection({ bookingData, onNext, onBack }: Props) 
       )}
 
       {selectedAddOns.length > 0 && (
-        <div className="card max-w-md mx-auto bg-primary-50 border-primary-200">
+        <div className="card max-w-md mx-auto bg-amber-50 border-amber-200">
           <h4 className="font-semibold text-gray-900 mb-2">Selected Add-ons</h4>
           <ul className="space-y-1">
             {addOnServices

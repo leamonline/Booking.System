@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Sparkles, Bath, Scissors, Plus } from 'lucide-react';
+import { Sparkles, Bath, Scissors, Plus, AlertCircle } from 'lucide-react';
 import type { BookingData } from '@/app/book/page';
-import { supabase } from '@/lib/supabase/client';
+import { supabase, isSupabaseConfigured } from '@/lib/supabase/client';
 import type { Service } from '@/types/database';
 
 interface Props {
@@ -27,11 +27,13 @@ export default function ServiceSelection({ bookingData, onNext }: Props) {
         .from('services')
         .select('*')
         .eq('is_active', true)
-        .in('service_type', ['full_groom', 'bath_brush', 'nail_trim'])
+        .in('service_type', ['full_groom', 'bath_brush'])
         .order('service_type');
 
       if (error) throw error;
-      setServices(data || []);
+      // Filter out Nail Clipping service
+      const filtered = (data || []).filter(s => !s.name.toLowerCase().includes('nail'));
+      setServices(filtered);
     } catch (error) {
       console.error('Error loading services:', error);
     } finally {
@@ -68,10 +70,51 @@ export default function ServiceSelection({ bookingData, onNext }: Props) {
     }
   };
 
+  if (!isSupabaseConfigured) {
+    return (
+      <div className="space-y-6">
+        <div className="text-center">
+          <h2 className="text-3xl font-bold text-gray-900 mb-2">
+            Choose Your Service
+          </h2>
+        </div>
+
+        <div className="card max-w-2xl mx-auto bg-amber-50 border-amber-200">
+          <div className="flex gap-3">
+            <AlertCircle className="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" />
+            <div>
+              <h3 className="font-semibold text-gray-900 mb-2">
+                Database Not Configured
+              </h3>
+              <p className="text-gray-700 mb-4">
+                To use the booking system, you need to set up Supabase:
+              </p>
+              <ol className="text-sm text-gray-700 space-y-2 list-decimal list-inside">
+                <li>Create a free account at <a href="https://supabase.com" target="_blank" className="text-blue-600 hover:underline">supabase.com</a></li>
+                <li>Create a new project</li>
+                <li>Run the SQL schema from <code className="bg-gray-100 px-1 rounded">lib/supabase/schema.sql</code></li>
+                <li>Copy your credentials to <code className="bg-gray-100 px-1 rounded">.env.local</code></li>
+              </ol>
+              <p className="text-sm text-gray-600 mt-4">
+                See <code className="bg-gray-100 px-1 rounded">SETUP.md</code> for detailed instructions.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex justify-start">
+          <a href="/" className="btn-secondary">
+            Back to Home
+          </a>
+        </div>
+      </div>
+    );
+  }
+
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{ borderColor: '#0284c7' }}></div>
       </div>
     );
   }

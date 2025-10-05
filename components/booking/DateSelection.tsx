@@ -44,9 +44,9 @@ export default function DateSelection({ bookingData, onNext, onBack }: Props) {
   };
 
   const isDateAvailable = (date: Date) => {
-    // Only allow Monday-Friday
+    // Only allow Monday, Tuesday, Wednesday (1, 2, 3)
     const day = date.getDay();
-    if (day === 0 || day === 6) return false;
+    if (day !== 1 && day !== 2 && day !== 3) return false;
 
     // Don't allow past dates
     const today = new Date();
@@ -104,11 +104,12 @@ export default function DateSelection({ bookingData, onNext, onBack }: Props) {
             disabled={!available}
             className={`aspect-square p-2 rounded-lg font-medium transition-all min-h-[44px] ${
               isSelected
-                ? 'bg-primary-600 text-white ring-2 ring-primary-600'
+                ? 'text-white ring-2 ring-amber-600'
                 : available
-                ? 'bg-white text-gray-900 hover:bg-primary-50 active:scale-95'
+                ? 'bg-white text-gray-900 hover:bg-amber-50 active:scale-95'
                 : 'bg-gray-100 text-gray-400 cursor-not-allowed'
             }`}
+            style={isSelected ? { backgroundColor: '#f59e0b' } : {}}
           >
             {day}
           </button>
@@ -123,10 +124,10 @@ export default function DateSelection({ bookingData, onNext, onBack }: Props) {
     <div className="space-y-6">
       <div className="text-center">
         <h2 className="text-3xl font-bold text-gray-900 mb-2">
-          Choose a Date
+          📅 Choose a Date
         </h2>
         <p className="text-gray-600">
-          Select your preferred appointment date
+          We're open Monday, Tuesday & Wednesday
         </p>
       </div>
 
@@ -165,10 +166,10 @@ export default function DateSelection({ bookingData, onNext, onBack }: Props) {
 
         {/* Selected Date Display */}
         {selectedDate && (
-          <div className="mt-6 p-4 bg-primary-50 rounded-lg text-center">
+          <div className="mt-6 p-4 bg-amber-50 rounded-lg text-center">
             <p className="text-sm text-gray-600">Selected Date</p>
-            <p className="text-lg font-semibold text-primary-600">
-              {selectedDate.toLocaleDateString('en-US', {
+            <p className="text-lg font-semibold" style={{ color: '#f59e0b' }}>
+              {selectedDate.toLocaleDateString('en-GB', {
                 weekday: 'long',
                 month: 'long',
                 day: 'numeric',
@@ -179,7 +180,7 @@ export default function DateSelection({ bookingData, onNext, onBack }: Props) {
         )}
 
         <div className="mt-4 text-sm text-gray-500 text-center">
-          <p>We're open Monday - Friday, 8:30 AM - 3:00 PM</p>
+          <p>⏰ Open Mon, Tue & Wed • 8:30am - 3:00pm</p>
         </div>
       </div>
 

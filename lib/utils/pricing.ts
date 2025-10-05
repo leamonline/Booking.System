@@ -43,14 +43,14 @@ export function calculateDuration(
 }
 
 export function formatPrice(cents: number): string {
-  return new Intl.NumberFormat('en-US', {
+  return new Intl.NumberFormat('en-GB', {
     style: 'currency',
-    currency: 'USD',
+    currency: 'GBP',
   }).format(cents / 100);
 }
 
 export function calculateMattingFee(minutes: number): number {
-  return minutes * 2 * 100; // $2/minute in cents
+  return minutes * 2 * 100; // £2/minute in pence
 }
 
 export function calculateCancellationFee(

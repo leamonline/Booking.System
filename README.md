@@ -28,7 +28,7 @@ A beautiful, mobile-first booking system built for a 2-groomer dog grooming salo
 ## Tech Stack
 
 - **Frontend**: Next.js 15, React 19, TypeScript
-- **Styling**: Tailwind CSS
+- **Styling**: Tailwind CSS v4 (with @tailwindcss/postcss)
 - **Database**: Supabase (PostgreSQL)
 - **Payments**: Stripe
 - **Notifications**: SendGrid (Email), Twilio (SMS)
@@ -154,6 +154,30 @@ To complete the system:
 6. Add photo upload to Supabase Storage
 7. Implement booking conflict detection
 8. Add reporting and analytics
+
+## Troubleshooting
+
+### Build Error: Tailwind CSS PostCSS Plugin
+If you see an error about Tailwind CSS and PostCSS, ensure:
+1. `@tailwindcss/postcss` is installed: `npm install @tailwindcss/postcss`
+2. Your `postcss.config.mjs` uses `'@tailwindcss/postcss': {}`
+3. Your `globals.css` starts with `@import "tailwindcss";`
+
+This project uses **Tailwind CSS v4** which has a different configuration than v3.
+
+**Note:** Custom utility classes (`.btn-primary`, `.card`, etc.) are defined using plain CSS in `globals.css` instead of `@apply` directives for better compatibility with Tailwind v4.
+
+### Port Already in Use
+If port 3000 is busy:
+```bash
+# Use a different port
+npm run dev -- -p 3001
+```
+
+### Supabase Connection Issues
+- Verify your `.env.local` has correct credentials
+- Check that RLS policies are enabled in Supabase
+- Ensure the database schema has been applied
 
 ## Development Roadmap
 

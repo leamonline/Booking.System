@@ -19,7 +19,7 @@ export default function PaymentStep({ bookingData, onNext, onBack }: Props) {
     setProcessing(true);
 
     // Simulate payment processing
-    // In production, integrate with Stripe Payment Intents
+    // In production, integrate with Square Web Payments SDK
     setTimeout(() => {
       setProcessing(false);
       setCompleted(true);
@@ -37,7 +37,7 @@ export default function PaymentStep({ bookingData, onNext, onBack }: Props) {
           </div>
 
           <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            Booking Confirmed!
+            🎉 Booking Confirmed!
           </h2>
 
           <p className="text-gray-600 mb-6">
@@ -46,7 +46,7 @@ export default function PaymentStep({ bookingData, onNext, onBack }: Props) {
             <span className="font-medium">{bookingData.customerData?.email}</span>
           </p>
 
-          <div className="bg-primary-50 rounded-lg p-6 mb-6">
+          <div className="bg-amber-50 rounded-lg p-6 mb-6">
             <h3 className="font-semibold text-gray-900 mb-4">
               Appointment Summary
             </h3>
@@ -91,7 +91,7 @@ export default function PaymentStep({ bookingData, onNext, onBack }: Props) {
                 ✓ Remaining balance of{' '}
                 {bookingData.deposit && bookingData.total
                   ? formatPrice(bookingData.total - bookingData.deposit)
-                  : '$0.00'}{' '}
+                  : '£0.00'}{' '}
                 due at service completion
               </li>
             </ul>
@@ -111,7 +111,7 @@ export default function PaymentStep({ bookingData, onNext, onBack }: Props) {
     <div className="space-y-6">
       <div className="text-center">
         <h2 className="text-3xl font-bold text-gray-900 mb-2">
-          Secure Payment
+          💳 Secure Payment
         </h2>
         <p className="text-gray-600">
           Complete your booking with a secure deposit payment
@@ -120,18 +120,18 @@ export default function PaymentStep({ bookingData, onNext, onBack }: Props) {
 
       <div className="max-w-md mx-auto space-y-4">
         {/* Payment Summary */}
-        <div className="card bg-primary-50 border-primary-200">
+        <div className="card bg-amber-50 border-amber-200">
           <div className="space-y-2">
             <div className="flex justify-between text-sm">
               <span className="text-gray-600">Service Total</span>
               <span className="font-medium text-gray-900">
-                {bookingData.total ? formatPrice(bookingData.total) : '$0.00'}
+                {bookingData.total ? formatPrice(bookingData.total) : '£0.00'}
               </span>
             </div>
             <div className="flex justify-between">
               <span className="font-semibold text-gray-900">Deposit Due Now</span>
-              <span className="font-bold text-primary-600 text-xl">
-                {bookingData.deposit ? formatPrice(bookingData.deposit) : '$0.00'}
+              <span className="font-bold text-xl" style={{ color: '#f59e0b' }}>
+                {bookingData.deposit ? formatPrice(bookingData.deposit) : '£0.00'}
               </span>
             </div>
             <div className="flex justify-between text-sm">
@@ -139,7 +139,7 @@ export default function PaymentStep({ bookingData, onNext, onBack }: Props) {
               <span className="text-gray-600">
                 {bookingData.deposit && bookingData.total
                   ? formatPrice(bookingData.total - bookingData.deposit)
-                  : '$0.00'}{' '}
+                  : '£0.00'}{' '}
                 (due at service)
               </span>
             </div>
@@ -149,7 +149,7 @@ export default function PaymentStep({ bookingData, onNext, onBack }: Props) {
         {/* Payment Form Placeholder */}
         <div className="card">
           <div className="flex items-center gap-2 mb-4">
-            <CreditCard className="w-5 h-5 text-primary-600" />
+            <CreditCard className="w-5 h-5" style={{ color: '#f59e0b' }} />
             <h3 className="font-semibold text-gray-900">Card Information</h3>
           </div>
 
@@ -208,7 +208,7 @@ export default function PaymentStep({ bookingData, onNext, onBack }: Props) {
           <div className="mt-4 flex items-start gap-2 text-xs text-gray-500">
             <Lock className="w-4 h-4 flex-shrink-0 mt-0.5" />
             <p>
-              Your payment information is encrypted and secure. We use Stripe for
+              Your payment information is encrypted and secure. We use Square for
               payment processing and never store your full card details.
             </p>
           </div>
@@ -217,11 +217,11 @@ export default function PaymentStep({ bookingData, onNext, onBack }: Props) {
         {/* Terms */}
         <div className="text-xs text-gray-600 text-center">
           By completing this booking, you agree to our{' '}
-          <a href="#" className="text-primary-600 hover:underline">
+          <a href="#" className="hover:underline" style={{ color: '#f59e0b' }}>
             Terms of Service
           </a>{' '}
           and{' '}
-          <a href="#" className="text-primary-600 hover:underline">
+          <a href="#" className="hover:underline" style={{ color: '#f59e0b' }}>
             Cancellation Policy
           </a>
         </div>
@@ -246,7 +246,7 @@ export default function PaymentStep({ bookingData, onNext, onBack }: Props) {
               <span className="animate-pulse">Processing...</span>
             </>
           ) : (
-            `Pay ${bookingData.deposit ? formatPrice(bookingData.deposit) : '$0.00'}`
+            `Pay ${bookingData.deposit ? formatPrice(bookingData.deposit) : '£0.00'}`
           )}
         </button>
       </div>
