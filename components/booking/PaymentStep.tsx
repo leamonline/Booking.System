@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { CheckCircle, CreditCard, Lock } from 'lucide-react';
+import { CheckCircle, CreditCard, Lock, Calendar, Download } from 'lucide-react';
 import type { BookingData } from '@/app/book/page';
 import { formatPrice } from '@/lib/utils/pricing';
+import { generateICalFile, downloadICalFile, generateGoogleCalendarUrl } from '@/lib/utils/calendar';
 
 interface Props {
   bookingData: BookingData;
@@ -23,7 +24,36 @@ export default function PaymentStep({ bookingData, onNext, onBack }: Props) {
     setTimeout(() => {
       setProcessing(false);
       setCompleted(true);
+      // Clear localStorage on successful payment
+      localStorage.removeItem('smarterdog_booking');
     }, 2000);
+  };
+
+  const handleAddToCalendar = (type: 'ical' | 'google') => {
+    if (!bookingData.selectedDate || !bookingData.selectedTime) return;
+
+    const [hours, minutes] = bookingData.selectedTime.split(':').map(Number);
+    const startDate = new Date(bookingData.selectedDate);
+    startDate.setHours(hours, minutes, 0, 0);
+
+    const endDate = new Date(startDate);
+    endDate.setHours(hours + 1, minutes + 30, 0, 0); // Assume 1.5 hour appointment
+
+    const calendarData = {
+      title: `Dog Grooming - ${bookingData.petData?.name || 'Your Dog'}`,
+      description: `${bookingData.mainService?.name || 'Grooming'} appointment at Smarter Dog.\n\nPet: ${bookingData.petData?.name || 'N/A'}\nService: ${bookingData.mainService?.name || 'N/A'}\nGroomer: ${bookingData.groomerName || 'Smarter Dog Grooming Salon'}\n\nPlease arrive 5 minutes early.`,
+      location: '183 Kings Road, Ashton-under-Lyne, OL6 8NN',
+      startDate,
+      endDate,
+    };
+
+    if (type === 'ical') {
+      const icalContent = generateICalFile(calendarData);
+      downloadICalFile(icalContent, `smarterdog-appointment-${startDate.toISOString().split('T')[0]}.ics`);
+    } else {
+      const googleUrl = generateGoogleCalendarUrl(calendarData);
+      window.open(googleUrl, '_blank');
+    }
   };
 
   if (completed) {
@@ -97,8 +127,29 @@ export default function PaymentStep({ bookingData, onNext, onBack }: Props) {
             </ul>
           </div>
 
+          {/* Add to Calendar */}
+          <div className="mt-8 border-t pt-6">
+            <p className="text-sm font-semibold text-gray-900 mb-3">📅 Add to Your Calendar</p>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <button
+                onClick={() => handleAddToCalendar('google')}
+                className="flex items-center justify-center gap-2 px-4 py-3 bg-white border-2 border-gray-300 rounded-lg hover:border-amber-500 hover:bg-amber-50 transition-all font-medium text-gray-700"
+              >
+                <Calendar className="w-5 h-5" />
+                Google Calendar
+              </button>
+              <button
+                onClick={() => handleAddToCalendar('ical')}
+                className="flex items-center justify-center gap-2 px-4 py-3 bg-white border-2 border-gray-300 rounded-lg hover:border-amber-500 hover:bg-amber-50 transition-all font-medium text-gray-700"
+              >
+                <Download className="w-5 h-5" />
+                Download iCal
+              </button>
+            </div>
+          </div>
+
           <div className="mt-8">
-            <a href="/" className="btn-primary inline-block">
+            <a href="/" className="btn-primary inline-block w-full sm:w-auto text-center">
               Return to Home
             </a>
           </div>

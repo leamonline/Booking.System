@@ -25,8 +25,8 @@ cp .env.local.example .env.local
 
 Edit `.env.local` and add your Supabase credentials:
 ```env
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
+NEXT_PUBLIC_SUPABASE_URL=https://qquqsvcvkcnfrazxugkd.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFxdXFzdmN2a2NuZnJhenh1Z2tkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk1ODc4NDgsImV4cCI6MjA3NTE2Mzg0OH0.juwatU-YUWRZRHfoYjes1SsejZiH4pg0CYEqvgD_1Oo
 ```
 
 ### 4. Run the Development Server

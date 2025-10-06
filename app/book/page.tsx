@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
 import ServiceSelection from '@/components/booking/ServiceSelection';
@@ -10,6 +10,7 @@ import TimeSelection from '@/components/booking/TimeSelection';
 import AddOnsSelection from '@/components/booking/AddOnsSelection';
 import ReviewBooking from '@/components/booking/ReviewBooking';
 import PaymentStep from '@/components/booking/PaymentStep';
+import BookingSummary from '@/components/booking/BookingSummary';
 
 export type BookingData = {
   // Step 1: Service
@@ -73,6 +74,35 @@ const STEPS = [
 export default function BookingPage() {
   const [currentStep, setCurrentStep] = useState(1);
   const [bookingData, setBookingData] = useState<BookingData>({});
+
+  // Load from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem('smarterdog_booking');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        // Convert date string back to Date object
+        if (parsed.selectedDate) {
+          parsed.selectedDate = new Date(parsed.selectedDate);
+        }
+        setBookingData(parsed);
+        // Resume from last completed step
+        if (parsed.mainService) setCurrentStep(Math.max(currentStep, 2));
+        if (parsed.petData) setCurrentStep(Math.max(currentStep, 3));
+        if (parsed.selectedDate) setCurrentStep(Math.max(currentStep, 4));
+        if (parsed.selectedTime) setCurrentStep(Math.max(currentStep, 5));
+      } catch (e) {
+        console.error('Failed to load saved booking', e);
+      }
+    }
+  }, []);
+
+  // Save to localStorage whenever bookingData changes
+  useEffect(() => {
+    if (Object.keys(bookingData).length > 0) {
+      localStorage.setItem('smarterdog_booking', JSON.stringify(bookingData));
+    }
+  }, [bookingData]);
 
   const handleNext = (data: Partial<BookingData>) => {
     setBookingData((prev) => ({ ...prev, ...data }));
@@ -144,12 +174,22 @@ export default function BookingPage() {
       </div>
 
       {/* Main Content */}
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
-        <CurrentStepComponent
-          bookingData={bookingData}
-          onNext={handleNext}
-          onBack={handleBack}
-        />
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Booking Form */}
+          <div className="lg:col-span-2">
+            <CurrentStepComponent
+              bookingData={bookingData}
+              onNext={handleNext}
+              onBack={handleBack}
+            />
+          </div>
+
+          {/* Booking Summary Sidebar - Hidden on mobile, visible on lg+ */}
+          <div className="hidden lg:block">
+            <BookingSummary bookingData={bookingData} currentStep={currentStep} />
+          </div>
+        </div>
       </main>
     </div>
   );

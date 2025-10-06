@@ -1,8 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { BookingData } from '@/app/book/page';
 import { DOG_BREEDS } from '@/lib/constants/breeds';
+import { formatUKPhone, isValidUKPhone } from '@/lib/utils/phone';
+import SearchableSelect from '@/components/ui/SearchableSelect';
+import { getSizeForBreed } from '@/lib/constants/breed-sizes';
 
 interface Props {
   bookingData: BookingData;
@@ -50,8 +53,28 @@ export default function PetSelection({ bookingData, onNext, onBack }: Props) {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    // Format phone number as user types
+    if (name === 'phone') {
+      setFormData((prev) => ({ ...prev, [name]: formatUKPhone(value) }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
   };
+
+  const handleBreedChange = (value: string) => {
+    // Auto-set size based on breed
+    const autoSize = getSizeForBreed(value);
+    setFormData((prev) => ({ ...prev, breed: value, size: autoSize }));
+  };
+
+  // Auto-fill size when breed is already set (from localStorage)
+  useEffect(() => {
+    if (formData.breed && !formData.size) {
+      const autoSize = getSizeForBreed(formData.breed);
+      setFormData((prev) => ({ ...prev, size: autoSize }));
+    }
+  }, [formData.breed]);
 
   const handleContinue = () => {
     // Validation
@@ -186,9 +209,12 @@ export default function PetSelection({ bookingData, onNext, onBack }: Props) {
                 value={formData.phone}
                 onChange={handleChange}
                 className="input-field"
-                placeholder="(555) 123-4567"
+                placeholder="07507 731487"
                 required
               />
+              {formData.phone && !isValidUKPhone(formData.phone) && (
+                <p className="text-xs text-red-600 mt-1">Please enter a valid UK phone number</p>
+              )}
             </div>
           </div>
         )}
@@ -211,44 +237,26 @@ export default function PetSelection({ bookingData, onNext, onBack }: Props) {
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Breed *
-            </label>
-            <select
-              name="breed"
-              value={formData.breed}
-              onChange={handleChange}
-              className="input-field"
-              required
-            >
-              <option value="">Select breed</option>
-              {DOG_BREEDS.map((breed) => (
-                <option key={breed} value={breed}>
-                  {breed}
-                </option>
-              ))}
-            </select>
-          </div>
+          <SearchableSelect
+            label="Breed"
+            options={DOG_BREEDS}
+            value={formData.breed}
+            onChange={handleBreedChange}
+            placeholder="Search breeds..."
+            required
+          />
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Size Category *
+              Size Category * {formData.size && <span className="text-xs text-amber-600">(Auto-filled based on breed)</span>}
             </label>
-            <select
-              name="size"
-              value={formData.size}
-              onChange={handleChange}
-              className="input-field"
-              required
-            >
-              <option value="">Select size</option>
-              {SIZE_OPTIONS.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label} - {option.description}
-                </option>
-              ))}
-            </select>
+            <input
+              type="text"
+              value={formData.size ? SIZE_OPTIONS.find(s => s.value === formData.size)?.label || formData.size : 'Select a breed first'}
+              className="input-field bg-amber-50 text-gray-700 cursor-not-allowed"
+              disabled
+              readOnly
+            />
           </div>
 
           <div>
